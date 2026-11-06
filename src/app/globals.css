@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+/*
+  Animações do projeto. Cada uma vira uma classe do Tailwind:
+  --animate-type-tap  →  class="animate-type-tap"
+*/
+@theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --animate-type-tap: type-tap 0.3s ease-in-out infinite; /* mãos digitando */
+  --animate-head-bob: head-bob 2.4s ease-in-out infinite; /* cabeça balançando */
+  --animate-float-icon: float-icon 2.6s ease-out forwards; /* ícone subindo e sumindo */
+  --animate-blink: blink 1s steps(1) infinite; /* cursor piscando */
+  --animate-led: blink 1.2s steps(1) infinite; /* luzes do servidor */
+  --animate-glow: glow 3s ease-in-out infinite; /* brilho pulsando */
+  --animate-spin-slow: spin 20s linear infinite;
+  --animate-spin-reverse: spin 14s linear infinite reverse;
+  --animate-float: float 3s ease-in-out infinite; /* flutuar devagar */
+
+  /* Animações dos sites (cada pessoa tem as suas) */
+  --animate-ripple: ripple 0.6s ease-out forwards; /* Pessoa A: onda no clique */
+  --animate-pop: pop 0.35s ease-out; /* Pessoa A: número do carrinho pula */
+  --animate-rise: rise 0.5s ease-out; /* Pessoa A: aviso do pedido subindo */
+  --animate-glitch: glitch 0.3s linear; /* Pessoa B: tremida de tela antiga */
+  --animate-flash: flash 0.8s ease-out; /* Pessoa B: linha acende em verde */
+  --animate-jelly: jelly 0.5s ease; /* Pessoa C: botão gelatina */
+  --animate-wiggle: wiggle 0.5s ease; /* Pessoa C: carrinho balança */
+  --animate-burst: burst 0.8s ease-out forwards; /* Pessoa C: confete de emojis */
+
+  @keyframes type-tap {
+    50% { transform: translateY(-0.3cqw); }
+  }
+  @keyframes head-bob {
+    50% { transform: translateY(0.15cqw) rotate(2deg); }
+  }
+  @keyframes float-icon {
+    0% { opacity: 0; transform: translateY(0) scale(0.3); }
+    15% { opacity: 1; transform: translateY(-1.5cqw) scale(1.1); }
+    100% { opacity: 0; transform: translateY(-9cqw) scale(1); }
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  @keyframes glow {
+    50% { opacity: 0.6; }
+  }
+  @keyframes float {
+    50% { transform: translateY(-1.5vmin); }
+  }
+
+  @keyframes ripple {
+    from { opacity: 0.6; transform: scale(0); }
+    to { opacity: 0; transform: scale(10); }
+  }
+  @keyframes pop {
+    50% { transform: scale(1.4); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  }
+  @keyframes glitch {
+    25% { transform: translate(-3px, 1px) skewX(-10deg); }
+    50% { transform: translate(3px, -1px); }
+    75% { transform: translate(-1px, 0) skewX(8deg); }
+  }
+  @keyframes flash {
+    from { background-color: rgb(163 230 53 / 0.25); }
+  }
+  @keyframes jelly {
+    25% { transform: scale(1.15, 0.85); }
+    50% { transform: scale(0.9, 1.1); }
+    75% { transform: scale(1.05, 0.95); }
+  }
+  @keyframes wiggle {
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+  }
+  /* Cada emoji do confete recebe um destino diferente pelas variáveis --x e --y */
+  @keyframes burst {
+    from { opacity: 1; transform: translate(-50%, -50%) scale(0.4); }
+    to { opacity: 0; transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.3) rotate(40deg); }
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  color: #fff;
+  /* Na vitrine ninguém precisa selecionar texto nem ver o "zoom" do toque */
+  user-select: none;
+  touch-action: manipulation;
 }
